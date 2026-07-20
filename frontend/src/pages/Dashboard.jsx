@@ -28,6 +28,7 @@ function Dashboard({ selectedPatientId, refreshTrigger }) {
   const [pendingNotifs, setPendingNotifs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null); // stores ID of schedule being updated
+  const [notifActionLoading, setNotifActionLoading] = useState(null); // stores ID of notification being updated
 
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
   const [dashboardNewPassword, setDashboardNewPassword] = useState("");
@@ -71,22 +72,28 @@ function Dashboard({ selectedPatientId, refreshTrigger }) {
   };
 
   const handleAcceptNotification = async (notifId) => {
+    setNotifActionLoading(notifId);
     try {
       await api.patch(`notifications/${notifId}/`, { status: "Accepted" });
       await fetchData();
     } catch (err) {
       console.error("Error accepting notification:", err);
       alert("Failed to accept prescription. Please try again.");
+    } finally {
+      setNotifActionLoading(null);
     }
   };
 
   const handleDeclineNotification = async (notifId) => {
+    setNotifActionLoading(notifId);
     try {
       await api.patch(`notifications/${notifId}/`, { status: "Declined" });
       await fetchData();
     } catch (err) {
       console.error("Error declining notification:", err);
       alert("Failed to decline prescription. Please try again.");
+    } finally {
+      setNotifActionLoading(null);
     }
   };
 
@@ -357,17 +364,25 @@ function Dashboard({ selectedPatientId, refreshTrigger }) {
                     <button
                       className="btn btn-success"
                       onClick={() => handleAcceptNotification(notif.id)}
+                      disabled={notifActionLoading !== null}
                       style={{ padding: "10px 18px", boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15)" }}
                     >
-                      <Check size={14} />
-                      Accept & Schedule
+                      {notifActionLoading === notif.id ? (
+                        "Accepting..."
+                      ) : (
+                        <>
+                          <Check size={14} />
+                          Accept & Schedule
+                        </>
+                      )}
                     </button>
                     <button
                       className="btn btn-outline btn-discontinue"
                       onClick={() => handleDeclineNotification(notif.id)}
+                      disabled={notifActionLoading !== null}
                       style={{ border: "1px solid rgba(239, 68, 68, 0.2)", color: "var(--text-secondary)", padding: "10px 18px" }}
                     >
-                      Decline
+                      {notifActionLoading === notif.id ? "Declining..." : "Decline"}
                     </button>
                   </div>
                 </div>

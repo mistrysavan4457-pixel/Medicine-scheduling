@@ -285,6 +285,7 @@ function DoctorPortal({ patients, loggedInDoctor }) {
                         placeholder="Enter new password"
                         value={dashboardNewPassword}
                         onChange={(e) => setDashboardNewPassword(e.target.value)}
+                        onFocus={(e) => e.target.select()}
                         style={{ width: "100%", fontSize: "13px", padding: "8px 12px", background: "var(--bg-deep)" }}
                       />
                     </div>
@@ -344,6 +345,7 @@ function DoctorPortal({ patients, loggedInDoctor }) {
                   className="form-control"
                   value={prescriptionForm.medicine_name}
                   onChange={handlePrescriptionChange}
+                  onFocus={(e) => e.target.select()}
                 />
               </div>
 
@@ -357,6 +359,7 @@ function DoctorPortal({ patients, loggedInDoctor }) {
                   className="form-control"
                   value={prescriptionForm.dosage}
                   onChange={handlePrescriptionChange}
+                  onFocus={(e) => e.target.select()}
                 />
               </div>
 
@@ -371,6 +374,7 @@ function DoctorPortal({ patients, loggedInDoctor }) {
                     className="form-control"
                     value={prescriptionForm.frequency}
                     onChange={handlePrescriptionChange}
+                    onFocus={(e) => e.target.select()}
                   />
                 </div>
                 <div className="form-group">
@@ -383,6 +387,7 @@ function DoctorPortal({ patients, loggedInDoctor }) {
                     className="form-control"
                     value={prescriptionForm.duration}
                     onChange={handlePrescriptionChange}
+                    onFocus={(e) => e.target.select()}
                   />
                 </div>
               </div>

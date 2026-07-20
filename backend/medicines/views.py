@@ -177,8 +177,9 @@ class DoctorNotificationRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDest
     serializer_class = DoctorNotificationSerializer
 
     def perform_update(self, serializer):
+        old_status = self.get_object().status
         instance = serializer.save()
-        if instance.status == "Accepted":
+        if old_status != "Accepted" and instance.status == "Accepted":
             from .models import Medicine
             medicine = Medicine.objects.create(
                 patient=instance.patient,

@@ -41,6 +41,7 @@ class MedicineReminderTests(APITestCase):
         # Verify medicine created
         self.assertEqual(Medicine.objects.count(), 1)
         medicine = Medicine.objects.first()
+        assert medicine is not None
         self.assertEqual(medicine.medicine_name, "Ibuprofen")
         
         # Verify 2 frequency * 3 duration = 6 schedules generated
@@ -87,6 +88,7 @@ class MedicineReminderTests(APITestCase):
         # Verify adherence is logged automatically
         self.assertEqual(Adherence.objects.count(), 1)
         adherence = Adherence.objects.first()
+        assert adherence is not None
         self.assertTrue(adherence.taken)
         self.assertEqual(adherence.patient, self.patient)
         self.assertEqual(adherence.medicine, medicine)
