@@ -1,4 +1,5 @@
 services:
+  # Django Backend API
   - type: web
     name: medicine-scheduling-backend
     runtime: python
@@ -12,3 +13,14 @@ services:
         value: "False"
       - key: PYTHON_VERSION
         value: "3.11.0"
+
+  # React Frontend Static Site
+  - type: web
+    name: medicine-scheduling-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_VERSION
+        value: "18"
